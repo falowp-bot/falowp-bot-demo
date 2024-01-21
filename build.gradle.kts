@@ -20,8 +20,9 @@ application {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
-    implementation("com.blr19c.falowp:falowp-bot-system:1.0.1-beta-4")
+    implementation("com.blr19c.falowp:falowp-bot-system:1.2.0")
 }

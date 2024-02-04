@@ -1,7 +1,3 @@
-val ktor_version: String by project
-val kotlin_version: String by project
-val logback_version: String by project
-
 plugins {
     kotlin("jvm") version "2.0.0-Beta2"
     id("io.ktor.plugin") version "3.0.0-beta-1"
@@ -9,7 +5,7 @@ plugins {
 }
 
 group = "com.blr19c.falowp"
-version = "0.0.1"
+version = "1.2.2"
 
 application {
     mainClass.set("com.blr19c.falowp.demo.ApplicationKt")
@@ -24,5 +20,5 @@ repositories {
 }
 
 dependencies {
-    implementation("com.blr19c.falowp:falowp-bot-system:1.2.0")
+    implementation("com.blr19c.falowp:falowp-bot-system:${project.version}")
 }

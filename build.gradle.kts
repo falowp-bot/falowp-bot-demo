@@ -1,11 +1,11 @@
 plugins {
-    kotlin("jvm") version "2.0.0-Beta2"
+    kotlin("jvm") version "2.0.0-Beta4"
     id("io.ktor.plugin") version "3.0.0-beta-1"
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.0-Beta2"
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.0-Beta4"
 }
 
 group = "com.blr19c.falowp"
-version = "1.2.2"
+version = "1.2.6"
 
 application {
     mainClass.set("com.blr19c.falowp.demo.ApplicationKt")

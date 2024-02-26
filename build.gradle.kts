@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.blr19c.falowp"
-version = "1.2.6"
+version = "1.3.0"
 
 application {
     mainClass.set("com.blr19c.falowp.demo.ApplicationKt")

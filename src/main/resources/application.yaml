@@ -1,0 +1,21 @@
+bot:
+  system:
+    #web配置
+    web:
+      port: 8041
+    #机器人名称
+    nickname: "小花落"
+    #超级管理员账号
+    administrator:
+      - "qq???"
+    #时区
+    zoneOffset: "+8"
+    #插件位置
+    pluginPackage:
+      - "com.blr19c.falowp.demo.plugins"
+  adapter:
+    #gocqhttp适配器
+    cq:
+      port: 8060
+      apiUrl: "http://127.0.0.1:5710"
+      wait: "true"

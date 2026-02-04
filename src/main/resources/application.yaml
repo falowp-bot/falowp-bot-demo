@@ -1,21 +1,25 @@
 bot:
   system:
-    #web配置
+    #web 配置
     web:
       port: 8041
     #机器人名称
     nickname: "小花落"
     #超级管理员账号
     administrator:
-      - "qq???"
+      - "1234567890" #qq号或者其他协议的管理员ID
     #时区
     zoneOffset: "+8"
     #插件位置
     pluginPackage:
       - "com.blr19c.falowp.demo.plugins"
   adapter:
-    #gocqhttp适配器
-    cq:
-      port: 8060
-      apiUrl: "http://127.0.0.1:5710"
-      wait: "true"
+    #NapCat 适配器
+    nc:
+      wsAddress: "ws://127.0.0.1:8060?access_token=xxx"
+      httpAddress: "http://127.0.0.1:8060?access_token=xxx"
+      useHttp: true
+      wsRetryInterval: 5000
+  plugin:
+    config:
+      config1: "config1"

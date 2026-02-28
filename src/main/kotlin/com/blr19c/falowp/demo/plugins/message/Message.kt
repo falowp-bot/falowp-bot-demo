@@ -77,6 +77,8 @@ class Message {
         this.sendReply("引用的回复", reference = true)
         //也可以选择合并转发这些消息
         this.sendReply(message, forward = true)
+        //也可以选择嵌套的合并转发一堆消息
+        this.sendReply(message, message, forward = true)
     }
 
     private fun customImage(): String {

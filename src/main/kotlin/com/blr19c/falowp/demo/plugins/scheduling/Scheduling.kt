@@ -1,15 +1,21 @@
 package com.blr19c.falowp.demo.plugins.scheduling
 
 import com.blr19c.falowp.bot.system.api.ReceiveMessage
+import com.blr19c.falowp.bot.system.api.SendMessage
 import com.blr19c.falowp.bot.system.plugin.Plugin
 import com.blr19c.falowp.bot.system.plugin.event.eventListener
+import com.blr19c.falowp.bot.system.plugin.task.applicationInitScheduling
 import com.blr19c.falowp.bot.system.plugin.task.cronScheduling
 import com.blr19c.falowp.bot.system.plugin.task.periodicScheduling
+import com.blr19c.falowp.bot.system.pluginConfigListProperty
 import kotlin.time.Duration.Companion.seconds
 
 @Plugin(name = "定时演示")
 class Scheduling {
 
+    private val notifyGroups by lazy {
+        pluginConfigListProperty("notifyGroups") { emptyList() }
+    }
 
     private val cron = cronScheduling("*/5 * * * * ?") {
         //println("5秒秒钟执行一次")
@@ -30,6 +36,22 @@ class Scheduling {
         //println("10秒钟执行一次")
     }
 
+    private val appInit = applicationInitScheduling {
+        println("应用启动完成,通知群配置:$notifyGroups")
+    }
+
+    private val periodicNotify = periodicScheduling(
+        period = 30.seconds,
+        initialDelay = 5.seconds,
+        fixedRate = true,
+        useGreeting = false
+    ) {
+        if (notifyGroups.isEmpty()) return@periodicScheduling
+        notifyGroups.forEach { groupId ->
+            this.sendGroup(SendMessage.builder("固定速率任务通知").build(), sourceId = groupId)
+        }
+    }
+
     private val eventListener = eventListener<SchedulingEvent> { event ->
         println(event)
     }
@@ -43,6 +65,8 @@ class Scheduling {
     init {
         cron.register()
         periodic.register()
+        appInit.register()
+        periodicNotify.register()
         eventListener.register()
     }
 }

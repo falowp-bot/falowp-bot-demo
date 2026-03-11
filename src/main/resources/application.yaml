@@ -23,3 +23,9 @@ bot:
   plugin:
     config:
       config1: "config1"
+      list:
+        - "list-item-1"
+        - "list-item-2"
+    scheduling:
+      notifyGroups:
+        - "123"

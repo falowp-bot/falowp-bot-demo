@@ -2,7 +2,10 @@ package com.blr19c.falowp.demo.plugins.message
 
 import com.blr19c.falowp.bot.adapter.nc.message.enums.NapCatFaceEmoji
 import com.blr19c.falowp.bot.adapter.nc.message.expand.*
+import com.blr19c.falowp.bot.system.api.ApiAuth
+import com.blr19c.falowp.bot.system.api.MessageTypeEnum
 import com.blr19c.falowp.bot.system.api.SendMessage
+import com.blr19c.falowp.bot.system.api.SourceTypeEnum
 import com.blr19c.falowp.bot.system.expand.encodeToBase64String
 import com.blr19c.falowp.bot.system.plugin.Plugin
 import com.blr19c.falowp.bot.system.plugin.message.MessageMatch
@@ -17,6 +20,51 @@ class Message {
 
     private val message = message(Regex("消息演示")) {
         this.sendReply("消息演示")
+    }
+
+    private val echoMessage = message(Regex("回显\\s+(.+)")) { (text) ->
+        this.sendReply("回显: $text")
+    }
+
+    private val administratorMessage = message(
+        regex = Regex("管理员广播\\s+(.+)"),
+        auth = ApiAuth.ADMINISTRATOR
+    ) { (text) ->
+        this.sendReply("广播发送中")
+        this.sendAllGroup(SendMessage.builder("【管理员广播】$text").build())
+    }
+
+    private val groupOnlyMessage = message(
+        MessageMatch.Build()
+            .regex(Regex("仅群聊消息演示"))
+            .sourceType(SourceTypeEnum.GROUP)
+            .build()
+    ) {
+        this.sendReply("这是群聊专属指令")
+    }
+
+    private val privateOnlyMessage = message(
+        MessageMatch.Build()
+            .regex(Regex("仅私聊消息演示"))
+            .sourceType(SourceTypeEnum.PRIVATE)
+            .build()
+    ) {
+        this.sendReply("这是私聊专属指令")
+    }
+
+    private val imageMessage = message(
+        MessageMatch.Build()
+            .regex(Regex("图片消息演示"))
+            .messageType(MessageTypeEnum.MESSAGE)
+            .appendCustom { it.content.image.isNotEmpty() }
+            .build()
+    ) {
+        this.sendReply("识别到图片消息")
+    }
+
+    private val selfMessage = message(Regex("机器人信息")) {
+        val self = this.self()
+        this.sendReply("当前机器人ID: ${self.id}")
     }
 
     private val atMeMessage = message(MessageMatch(Regex("AT我消息演示"), atMe = true)) {
@@ -93,6 +141,12 @@ class Message {
 
     init {
         message.register()
+        echoMessage.register()
+        administratorMessage.register()
+        groupOnlyMessage.register()
+        privateOnlyMessage.register()
+        imageMessage.register()
+        selfMessage.register()
         atMeMessage.register()
         notTerminatedMessage.register()
         queueMessage.register()
